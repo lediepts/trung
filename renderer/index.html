@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Askul Proxy & Config Manager</title>
+  <style>
+    :root {
+      --border: #334155;
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto;
+      background: #0f172a;
+      color: #e2e8f0;
+      margin: 0;
+    }
+
+
+    .wrap {
+      max-width: 980px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      background: #1e293b;
+      color: #e2e8f0;
+    }
+
+    button.primary {
+      background: #10b981;
+      color: #0f172a;
+      border-color: #059669;
+    }
+
+    button.danger {
+      background: #ef4444;
+      color: #0f172a;
+      border-color: #dc2626;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      background: #0b1324;
+      border: 1px solid var(--border);
+      color: #e2e8f0;
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .result-list {
+      margin-top: 10px;
+      background: #0b1324;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      max-height: 300px;
+      overflow: auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #94a3b8;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    .preview {
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-top: 6px;
+    }
+
+    .preview code {
+      color: #93c5fd;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h2>Cấu hình</h2>
+    <div class="grid">
+      <div>
+        <label>Tên file (.json)</label>
+        <input id="fileName" placeholder="config.json" />
+      </div>
+      <div>
+        <label>Thư mục lưu</label>
+        <div class="buttons">
+          <button id="selectDirBtn">Chọn thư mục</button>
+          <span id="saveDir" style="align-self:center;"></span>
+        </div>
+      </div>
+
+      <!-- CHỈ GIỮ productId -->
+      <div style="grid-column:1/-1;">
+        <label>Mã sản phẩm (ví dụ: ANK5149)</label>
+        <input id="productId" placeholder="ANK5149" />
+        <div class="hint">Hệ thống sẽ tự tạo URL đăng nhập & URL sản phẩm từ mã này; URL xác nhận là hằng số cố định.
+        </div>
+        <div class="preview">
+          <div>URL đăng nhập (tự sinh): <code id="previewLoginUrl"></code></div>
+          <div>URL sản phẩm (tự sinh): <code id="previewProductUrl"></code></div>
+          <div>URL xác nhận (cố định): <code id="previewConfirmUrl"></code></div>
+        </div>
+      </div>
+
+      <div>
+        <label>User ID</label>
+        <input id="username" />
+      </div>
+      <div>
+        <label>Mật khẩu</label>
+        <input id="password" type="text" />
+      </div>
+      <div>
+        <label>Số lượng</label>
+        <input id="quantity" type="number" value="1" />
+      </div>
+      <div style="grid-column:1/-1;">
+        <label>Danh sách Proxy (mỗi dòng 1 proxy — dạng: host:port:user:pass hoặc http://user:pass@host:port)</label>
+        <textarea id="proxies" rows="5"></textarea>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button id="importBtn">Nhập cấu hình</button>
+      <button id="runBtn" class="primary">Lưu và chạy</button>
+      <button id="stopBtn" class="danger">Dừng</button>
+    </div>
+
+    <div class="result-list" id="results"></div>
+    <div id="status"></div>
+  </div>
+
+
+
+  <script src="./renderer.js"></script>
+</body>
+
+</html>
